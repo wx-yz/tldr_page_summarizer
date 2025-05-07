@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TL;DR Page Summarizer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>TL;DR Summarizer</h1>
+    
+    <div class="api-key-section">
+      <label for="apiKey">OpenAI API Key:</label>
+      <input type="password" id="apiKey" placeholder="Enter your OpenAI API key">
+      <button id="saveApiKey">
+        <span class="button-text">Save API Key</span>
+        <span class="loading-spinner hidden"></span>
+      </button>
+      <div id="apiKeyStatus" class="status-message"></div>
+    </div>
+
+    <div class="summary-options">
+      <h2>Select Summary Type:</h2>
+      <select id="summaryType">
+        <option value="short">Short Summary</option>
+        <option value="explain">Explain like to a smart 12 year old</option>
+        <option value="important">Most Important Points</option>
+      </select>
+    </div>
+
+    <div class="character-limit-warning hidden">
+      <p>⚠️ The page content is very long. This might take a while to process.</p>
+    </div>
+
+    <button id="generateSummary" class="primary-button">
+      <span class="button-text">Generate Summary</span>
+      <span class="loading-spinner hidden"></span>
+    </button>
+
+    <div id="summaryResult" class="summary-result">
+      <div class="summary-header">
+        <h3>Summary:</h3>
+        <button id="copySummary" class="icon-button" title="Copy to clipboard">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4V14H14V4H4ZM3 3H15V15H3V3Z" fill="currentColor"/>
+            <path d="M2 1V11H3V2H12V1H2Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+      <div id="summaryContent"></div>
+    </div>
+
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <p>Generating summary...</p>
+    </div>
+
+    <div id="error" class="error-message hidden"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html> 
