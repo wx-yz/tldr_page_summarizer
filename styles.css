@@ -29,11 +29,47 @@ h2 {
   gap: 8px;
 }
 
-input[type="password"] {
+.input-with-icon { /* New style for the wrapper */
+  position: relative;
+  display: flex; /* Aligns input and icon correctly */
+  align-items: center;
+}
+
+/* Modified existing input style to apply to text type as well, and be more specific */
+.api-key-section input[type="password"],
+.api-key-section input[type="text"] {
   padding: 8px;
   border: 1px solid #dadce0;
   border-radius: 4px;
   font-size: 14px;
+  width: 100%; /* Ensure input takes full width of its container */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+#apiKey { /* Specific style for apiKey input to add padding for the icon */
+  padding-right: 40px; /* Add space on the right for the icon */
+}
+
+.toggle-visibility-icon { /* New style for the icon container */
+  position: absolute;
+  right: 1px; /* Position inside the input field's border */
+  top: 50%;
+  transform: translateY(-50%); /* Vertically center the icon */
+  width: 38px; /* Width of the clickable icon area */
+  height: calc(100% - 2px); /* Match the inner height of the input */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none; /* Prevent text selection on icon click */
+}
+
+.toggle-visibility-icon svg { /* Style for the SVG icons */
+  color: #5f6368;
+}
+
+.toggle-visibility-icon:hover svg { /* Change icon color on hover */
+  color: #202124;
 }
 
 select {
@@ -50,7 +86,7 @@ button {
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, color 0.2s, opacity 0.2s; /* Added color and opacity for smoother transitions */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,12 +94,18 @@ button {
 }
 
 #saveApiKey {
-  background-color: #f1f3f4;
-  color: #202124;
+  background-color: #1a73e8; /* Active state: Blue */
+  color: white;
 }
 
-#saveApiKey:hover {
-  background-color: #e8eaed;
+#saveApiKey:hover:not(:disabled) {
+  background-color: #1557b0; /* Darker blue for hover when active */
+}
+
+#saveApiKey:disabled {
+  background-color: #f1f3f4; /* Disabled state: Light gray */
+  color: #a0a0a0;          /* Dimmed text color for disabled state */
+  cursor: not-allowed;
 }
 
 .primary-button {
@@ -150,7 +192,7 @@ button {
 }
 
 .hidden {
-  display: none;
+  display: none !important; /* Added !important to ensure it overrides other display settings */
 }
 
 .status-message {
@@ -164,7 +206,6 @@ button {
   padding: 8px;
   background-color: #fce8e6;
   border-radius: 4px;
-  display: none;
 }
 
 .character-limit-warning {
@@ -178,4 +219,52 @@ button {
 
 .character-limit-warning p {
   margin: 0;
-} 
+}
+
+/* Thinking animation */
+.thinking-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.thinking-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.thinking-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #1a73e8;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.thinking-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.thinking-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.thinking-text {
+  color: #5f6368;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}

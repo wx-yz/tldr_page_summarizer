@@ -95,9 +95,30 @@ function extractWebPageContent() {
 
 // Listen for messages from the popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  // Log all received messages for easier debugging
+  console.log('[TLDR Page Summarizer] content.js received message:', request);
+
   if (request.action === 'getPageContent') {
-    const content = extractPageContent();
-    sendResponse({ content: content });
+    try {
+      const content = extractPageContent();
+      // Log successful extraction before sending
+      console.log('[TLDR Page Summarizer] content.js extracted content, preparing to send response.');
+      sendResponse({ content: content });
+    } catch (error) {
+      // Log the error and send an error response back to the popup
+      console.error('[TLDR Page Summarizer] content.js error processing getPageContent:', error);
+      sendResponse({ error: 'Failed to extract page content: ' + error.message });
+    }
+    // Return true from the event listener to indicate that sendResponse will be called.
+    // This is crucial for both synchronous and asynchronous sendResponse calls to keep
+    // the message channel open until sendResponse completes.
+    return true;
   }
-  return true;
-}); 
+  // If the action is not 'getPageContent', this listener does not handle it.
+  // No 'return true' here, as sendResponse is not called for other actions by this specific handler.
+  // The message channel can close if no other listener handles it.
+});
+
+// Log that the content script has loaded and the listener should be active.
+// This helps confirm the script is running in the target page's context.
+console.log('[TLDR Page Summarizer] content.js loaded and message listener active.');
